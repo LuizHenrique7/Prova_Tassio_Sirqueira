@@ -1,10 +1,12 @@
 package br.edu.universidadedevassouras.prova.model;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Data;
 
+import javax.persistence.*;
+import java.util.Date;
+
+@Entity
+@Data
 public class Endereco{
 
     @Id
@@ -21,7 +23,7 @@ public class Endereco{
     private String Logradouro;
 
     @Column(nullable = false, unique = true)
-    private String Numero;
+    private int Numero;
 
     @Column(nullable = false)
     private String Bairro;
@@ -34,8 +36,6 @@ public class Endereco{
 
     @Column(nullable = false)
     private String Pais;
-
-
 
 
 }

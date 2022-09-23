@@ -1,0 +1,36 @@
+post localhost:8080/pessoa
+
+{
+"nome": "Nome teste",
+"email": "emailteste1@gmail.com",
+"nascimento": "2000-01-01",
+"sexo": "m",
+"cpf": "54321",
+"rg": "54321",
+"tipo_Sanguineo": "A",
+"pai": "TesteP",
+"mae": "TesteM",
+"telefone": "54321",
+"endereco": "testeE."
+}
+
+post localhost:8080/endereco
+
+{
+"cep": "123",
+"tipo_Logradouro": "TesteTipo",
+"logradouro": "testeL",
+"numero": "4",
+"bairro": "Bairro1",
+"cidade": "Cidade1",
+"estado": "RJ",
+"pais": "Brasil"
+
+}
+
+post localhost:8080/telefone
+
+{
+"celular": "1",
+"fixo": "1"
+}

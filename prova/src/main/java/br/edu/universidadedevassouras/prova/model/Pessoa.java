@@ -22,7 +22,7 @@ public class Pessoa {
     private Date Nascimento;
 
     @Column(nullable = false)
-    private char Sexo;
+    private String Sexo;
 
     @Column(nullable = false, unique = true)
     private String CPF;

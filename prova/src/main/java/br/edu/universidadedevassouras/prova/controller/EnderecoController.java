@@ -11,38 +11,51 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-public class EnderecoController{
 
-
+@RestController
+public class EnderecoController {
     @Autowired
     private EnderecoRepository _enderecoRepository;
-    private Endereco endereco;
 
-    @GetMapping
-    public @ResponseBody Iterable<Endereco> getAll(){
+    @RequestMapping(value = "/endereco", method = RequestMethod.GET)
+    public List<Endereco> Get() {
         return _enderecoRepository.findAll();
     }
 
-    @GetMapping(path = "/endereco/{id}")
-    public @ResponseBody Optional<Endereco> getEndereco(@PathVariable("id")Long id){
-        return _enderecoRepository.findById(id);
+    @RequestMapping(value = "/endereco/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Endereco> GetById(@PathVariable(value = "id") long id) {
+        Optional<Endereco> endereco = _enderecoRepository.findById(id);
+        if (endereco.isPresent())
+            return new ResponseEntity<Endereco>(endereco.get(), HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping
-    public Endereco postEndereco(@RequestBody Endereco p){
-        return _enderecoRepository.save(p);
+    @RequestMapping(value = "/endereco", method = RequestMethod.POST)
+    public Endereco Post(@Valid @RequestBody Endereco endereco) {
+        return _enderecoRepository.save(endereco);
     }
 
-    @DeleteMapping
-    public void Delete(){
-        _enderecoRepository.deleteAll();
+    @RequestMapping(value = "/endereco/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Endereco> Put(@PathVariable(value = "id") long id, @Valid @RequestBody Endereco newEndereco) {
+        Optional<Endereco> oldEndereco = _enderecoRepository.findById(id);
+        if (oldEndereco.isPresent()) {
+            Endereco endereco = oldEndereco.get();
+            endereco.setLogradouro(newEndereco.getLogradouro());
+            _enderecoRepository.save(endereco);
+            return new ResponseEntity<Endereco>(endereco, HttpStatus.OK);
+        } else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping
-    public Endereco putEndereco(@RequestBody Endereco p){
-
-        return _enderecoRepository.save(p);
+    @RequestMapping(value = "/endereco/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> Delete(@PathVariable(value = "id") long id) {
+        Optional<Endereco> endereco = _enderecoRepository.findById(id);
+        if (endereco.isPresent()) {
+            _enderecoRepository.delete(endereco.get());
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
 
 }
